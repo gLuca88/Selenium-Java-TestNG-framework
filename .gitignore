@@ -1,0 +1,97 @@
+
+###############################
+#  MAVEN & TARGET
+###############################
+/target/
+/out/
+/build/
+!.mvn/wrapper/maven-wrapper.jar
+
+###############################
+#  IDEs (IntelliJ / Eclipse / VSCode)
+###############################
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VSCode
+.vscode/
+
+###############################
+#  LOG FILES
+###############################
+*.log
+/logs/
+/*/logs/
+
+###############################
+#  REPORTS
+###############################
+/reports/
+/*/reports/
+
+###############################
+#  SCREENSHOTS
+###############################
+/screenshots/
+/*/screenshots/
+*.png
+
+###############################
+#  SYSTEM & OS FILES
+###############################
+.DS_Store
+Thumbs.db
+desktop.ini
+
+###############################
+#  ENVIRONMENTS & PROPERTIES
+###############################
+/*.properties
+!/environment/
+/environment/*.properties
+
+###############################
+#  JAVA & COMPILATION
+###############################
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+###############################
+#  LOG4J
+###############################
+/log4j/
+/*/log4j/
+
+###############################
+#  TEST OUTPUT
+###############################
+test-output/
+surefire-reports/
+failsafe-reports/
+
+###############################
+#  TEMPORARY FILES
+###############################
+*.tmp
+*.swp
+*.bak
+
+###############################
+#  SELENIUM WEBDRIVER BINARIES
+###############################
+chromedriver*
+geckodriver*
+msedgedriver*
+drivers/
+webdrivers/

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+	<Appenders>
+
+		<!-- LOG IN CONSOLE -->
+		<Console name="ConsoleLogger" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
+		</Console>
+
+		<!-- LOG SU FILE -->
+		<File name="FileLogger" fileName="logs/framework.log"
+			append="true">
+			<PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
+		</File>
+
+	</Appenders>
+
+	<Loggers>
+
+		<Root level="info">
+			<AppenderRef ref="ConsoleLogger" />
+			<AppenderRef ref="FileLogger" />
+		</Root>
+
+	</Loggers>
+</Configuration>
