@@ -15,5 +15,7 @@ public interface ISeleniumActions {
 	void waitForVisible(By locator);
 
 	void waitForClickable(By locator);
+	
+	void selectByValue(By locator, String value);
 
 }

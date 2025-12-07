@@ -1,0 +1,22 @@
+{
+	"nome": "Lorenzo",
+	"cognome": "Bianchi",
+	"email": "lorenzo.bianchi.test@example.com",
+	"sesso": "maschio",
+	"password": "Password123!",
+	"giornoNascita": "14",
+	"meseNascita": "3",
+	"annoNascita": "1993",
+	"newsletter": true,
+	"offerteSpeciali": true,
+	"azienda": "AlphaTech Innovations",
+	"indirizzo1": "Via Roma 45",
+	"indirizzo2": "Scala B, Interno 12",
+	"paese": "India",
+	"stato": "Maharashtra",
+	"citta": "Mumbai",
+	"cap": "400001",
+	"telefono": "9876543210",
+	"messaggioConfermaCreazioneAccount":"Account Created!",
+	"messaggioConfermaCancellazioneAccount":"Account Deleted!"
+}

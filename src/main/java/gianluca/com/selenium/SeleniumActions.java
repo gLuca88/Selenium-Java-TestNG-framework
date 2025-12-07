@@ -1,11 +1,13 @@
 package gianluca.com.selenium;
 
 import java.time.Duration;
-import java.util.NoSuchElementException;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import gianluca.com.configurazionereport.ExtentLogger;
@@ -26,14 +28,17 @@ public class SeleniumActions implements ISeleniumActions {
 		try {
 			waitForClickable(locator);
 			driver.findElement(locator).click();
-			ExtentLogger.pass("Click su elemento: " + locator);
-			LoggerUtils.info("Click eseguito su: " + locator);
+
+			// Report
+			ExtentLogger.pass("Click eseguito sull'elemento:" + locator);
+			// Log file
+			LoggerUtils.info("Click eseguito su locator: " + locator);
 
 		} catch (Exception e) {
-
-			ExtentLogger.fail("Errore durante il click su: " + locator);
-			LoggerUtils.error("Errore click su " + locator + ": " + e.getMessage());
-
+			// Report
+			ExtentLogger.fail("Impossibile eseguire il click sull'elemento.");
+			// Log file
+			LoggerUtils.error("Errore click su locator: " + locator + " - " + e.getMessage());
 			throw e;
 		}
 	}
@@ -44,15 +49,16 @@ public class SeleniumActions implements ISeleniumActions {
 			waitForVisible(locator);
 			driver.findElement(locator).clear();
 			driver.findElement(locator).sendKeys(text);
-
-			ExtentLogger.pass("Digitato testo '" + text + "' in: " + locator);
-			LoggerUtils.info("Digitato '" + text + "' in " + locator);
+			// Report
+			ExtentLogger.pass("Testo inserito nel campo richiesto.");
+			// Log file
+			LoggerUtils.info("Digitato '" + text + "' su locator: " + locator);
 
 		} catch (Exception e) {
-
-			ExtentLogger.fail("Errore digitazione su: " + locator);
-			LoggerUtils.error("Errore digitazione su " + locator + ": " + e.getMessage());
-
+			// Report
+			ExtentLogger.fail("Errore durante l'inserimento del testo.");
+			// Log file
+			LoggerUtils.error("Errore digitazione su locator: " + locator + " - " + e.getMessage());
 			throw e;
 		}
 	}
@@ -62,17 +68,18 @@ public class SeleniumActions implements ISeleniumActions {
 		try {
 			waitForVisible(locator);
 			String value = driver.findElement(locator).getText();
-
-			ExtentLogger.info("Testo estratto da " + locator + ": " + value);
-			LoggerUtils.info("getText da " + locator + ": " + value);
+			// Report
+			ExtentLogger.info("Testo letto dall'elemento:" + value);
+			// Log file
+			LoggerUtils.info("getText su locator: " + locator + " - valore: " + value);
 
 			return value;
 
 		} catch (Exception e) {
-
-			ExtentLogger.fail("Errore getText su: " + locator);
-			LoggerUtils.error("Errore getText su " + locator + ": " + e.getMessage());
-
+			// Report
+			ExtentLogger.fail("Errore durante la lettura del testo.");
+			// Log file
+			LoggerUtils.error("Errore getText su locator: " + locator + " - " + e.getMessage());
 			throw e;
 		}
 	}
@@ -80,11 +87,17 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public boolean isDisplayed(By locator) {
 		try {
-			boolean result = driver.findElement(locator).isDisplayed();
-			LoggerUtils.info("isDisplayed(" + locator + ") = " + result);
-			return result;
+			List<WebElement> elements = driver.findElements(locator);
+			if (elements.isEmpty()) {
+				LoggerUtils.info("Elemento NON presente nel DOM → " + locator);
+				return false;
+			}
+			boolean visible = elements.get(0).isDisplayed();
+			LoggerUtils.info("isDisplayed(" + locator + ") = " + visible);
+			return visible;
 
-		} catch (NoSuchElementException e) {
+		} catch (Exception e) {
+			LoggerUtils.warn("Errore in isDisplayed, ritorno false. Locator: " + locator);
 			return false;
 		}
 	}
@@ -98,4 +111,23 @@ public class SeleniumActions implements ISeleniumActions {
 	public void waitForClickable(By locator) {
 		wait.until(ExpectedConditions.elementToBeClickable(locator));
 	}
+
+	@Override
+	public void selectByValue(By locator, String value) {
+		try {
+			waitForVisible(locator);
+
+			Select select = new Select(driver.findElement(locator));
+			select.selectByValue(value);
+
+			LoggerUtils.info("Select by value: '" + value + "' su locator: " + locator);
+			ExtentLogger.pass("Selezionato valore '" + value + "' dal menu a tendina.");
+
+		} catch (Exception e) {
+			LoggerUtils.error("Errore selectByValue su " + locator + ": " + e.getMessage());
+			ExtentLogger.fail("Errore nella selezione del valore.");
+			throw e;
+		}
+	}
+
 }

@@ -36,6 +36,7 @@ public class ExtentReportManager implements IReportManager {
 	public void onTestStart(ITestResult result) {
 		test = extent.createTest(result.getName());
 		test.log(Status.INFO, "Test started");
+		test.assignAuthor("Gianluca");
 	}
 
 	@Override
@@ -45,16 +46,23 @@ public class ExtentReportManager implements IReportManager {
 
 	@Override
 	public void onTestFailure(ITestResult result, String screenshotPath) {
-		test.log(Status.FAIL, "Test failed: " + result.getThrowable());
+
+		test.fail("Test failed: " + result.getThrowable());
+
 		try {
-			test.addScreenCaptureFromPath(screenshotPath);
-		} catch (Exception ignored) {
+			test.fail("Screenshot:").addScreenCaptureFromPath(screenshotPath);
+		} catch (Exception e) {
+			LoggerUtils.error("Errore allegando screenshot: " + e.getMessage());
 		}
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		test.log(Status.SKIP, "Test skipped");
+	}
+
+	public void setSystemInfo(String key, String value) {
+		extent.setSystemInfo(key, value);
 	}
 
 	public ExtentTest getTest() {

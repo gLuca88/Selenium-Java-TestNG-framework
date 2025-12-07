@@ -14,4 +14,6 @@ public interface IReportManager {
 	void onTestFailure(ITestResult result, String screenshotPath);
 
 	void onTestSkipped(ITestResult result);
+
+	void setSystemInfo(String key, String value);
 }

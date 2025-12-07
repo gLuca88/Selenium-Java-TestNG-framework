@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Automation Suite" verbose="1">
+
+	<listeners>
+		<listener class-name="gianluca.com.listeners.TestListener" />
+	</listeners>
+
+	<test name="Register Test">
+		<classes>
+			<class name="gianluca.com.tests.RegisterTest" />
+		</classes>
+	</test>
+
+</suite>

@@ -20,18 +20,19 @@ public class TestListener implements ITestListener {
 
         //Carichiamo il tipo di report dal properties
         String reportType = ConfigReader.getProperty("report");
-
         //Prendiamo l'implementazione dalla factory (ExtentReportManager per ora)
         reportManager = ReportFactory.get(reportType);
-
         //Impostiamo il logger ExtentLogger per i log step-by-step
         ExtentLogger.setManager(reportManager);
-
         //Logging con Log4j2
         LoggerUtils.info("SUITE STARTED: " + context.getName());
-
         //Notifica al sistema di report
         reportManager.onStartSuite(context.getName());
+        //   SYSTEM INFO NEL REPORT
+        String browser = ConfigReader.getProperty("browser");
+        String environment = ConfigReader.getProperty("environment");
+        reportManager.setSystemInfo("Browser", browser);
+        reportManager.setSystemInfo("Environment", environment);
     }
 
     @Override

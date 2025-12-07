@@ -30,7 +30,7 @@ public class ScreenshotUtils {
 			throw new RuntimeException("Errore salvataggio screenshot", e);
 		}
 
-		return screenshotPath;
+		return new File(screenshotPath).getAbsolutePath();
 	}
 
 	public static String getRunFolder() {

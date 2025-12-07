@@ -11,4 +11,13 @@ public class BasePage {
 		this.driver = driver;
 		this.actions = new SeleniumActions(driver);
 	}
+
+	public String getCurrentUrl() {
+		return driver.getCurrentUrl();
+	}
+
+	public String getTitoloPagina() {
+		return driver.getTitle();
+	}
+
 }

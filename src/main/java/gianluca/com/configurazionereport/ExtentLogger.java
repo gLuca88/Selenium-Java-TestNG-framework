@@ -1,25 +1,30 @@
 package gianluca.com.configurazionereport;
 
-
 import com.aventstack.extentreports.Status;
 
-public class ExtentLogger {//per report
+public class ExtentLogger {
 
-	private static IReportManager reportManager;
+	private static ExtentReportManager extent;
 
 	public static void setManager(IReportManager manager) {
-		reportManager = manager;
+		extent = (ExtentReportManager) manager;
 	}
 
 	public static void info(String message) {
-		((ExtentReportManager) reportManager).getTest().log(Status.INFO, message);
+		if (extent == null || extent.getTest() == null)
+			return;
+		extent.getTest().log(Status.INFO, message);
 	}
 
 	public static void pass(String message) {
-		((ExtentReportManager) reportManager).getTest().log(Status.PASS, message);
+		if (extent == null || extent.getTest() == null)
+			return;
+		extent.getTest().log(Status.PASS, message);
 	}
 
 	public static void fail(String message) {
-		((ExtentReportManager) reportManager).getTest().log(Status.FAIL, message);
+		if (extent == null || extent.getTest() == null)
+			return;
+		extent.getTest().log(Status.FAIL, message);
 	}
 }
