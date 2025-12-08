@@ -36,8 +36,6 @@ public class FormRegistrazionePage extends BasePage {
 
 	private By container_MexAccountCreato = By.cssSelector("h2[data-qa='account-created']");
 
-	private By button_continueDopoCreazioneAccount = By.cssSelector("a[data-qa='continue-button']");
-
 	/*
 	 * ============================== SECTION: ENTER ACCOUNT INFO
 	 * ==============================
@@ -117,11 +115,7 @@ public class FormRegistrazionePage extends BasePage {
 	}
 
 	public boolean verificaMessaggioAccountCreato(String messaggioAtteso) {
-		return actions.getText(container_MexAccountCreato).equalsIgnoreCase(messaggioAtteso);
-	}
-
-	public void clickContinueDopoCompilazioneForm() {
-		actions.click(button_continueDopoCreazioneAccount);
+		return actions.isTextEqual(container_MexAccountCreato, messaggioAtteso);
 	}
 
 }

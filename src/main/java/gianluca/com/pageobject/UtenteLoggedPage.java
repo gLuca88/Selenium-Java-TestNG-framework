@@ -15,9 +15,8 @@ public class UtenteLoggedPage extends BasePage {
 	private By button_CancellaAccount = By.xpath("//a[contains(@href,'delete')]");
 	private By container_MessaggioAccountCancellato = By.cssSelector("h2[data-qa='account-deleted']");
 
-	public boolean verificaMessaggio(String nomeAtteso) {
-		String nomeOttenuto = actions.getText(container_NomeUtenteLoggato).trim();
-		return nomeOttenuto.equalsIgnoreCase(nomeAtteso);
+	public boolean verificaMessaggioLoggedUtente(String nomeAtteso) {
+		return actions.isTextEqual(container_NomeUtenteLoggato, nomeAtteso);
 	}
 
 	public void clickCancellaAccount() {
@@ -25,8 +24,7 @@ public class UtenteLoggedPage extends BasePage {
 	}
 
 	public boolean verificaMessaggioAccountCancellato(String messaggioAtteso) {
-		String messaggioOttenuto = actions.getText(container_MessaggioAccountCancellato);
-		return messaggioOttenuto.equalsIgnoreCase(messaggioAtteso);
+		return actions.isTextEqual(container_MessaggioAccountCancellato, messaggioAtteso);
 	}
 
 	public boolean verificaPresenzaContainerUtenteLoggato() {

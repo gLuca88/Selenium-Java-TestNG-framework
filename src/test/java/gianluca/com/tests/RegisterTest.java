@@ -2,7 +2,6 @@ package gianluca.com.tests;
 
 import static org.testng.Assert.*;
 
-
 import org.testng.annotations.Test;
 
 import gianluca.com.basefactory.BaseTest;
@@ -12,6 +11,7 @@ import gianluca.com.datatestmodel.UtenteRegistrazione;
 import gianluca.com.pageobject.FormRegistrazionePage;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginRegistrazionePage;
+import gianluca.com.pageobject.MessaggiSistemaPage;
 import gianluca.com.pageobject.UtenteLoggedPage;
 import gianluca.com.utilstest.JsonUtils;
 
@@ -106,9 +106,10 @@ public class RegisterTest extends BaseTest {
 		LoggerUtils.info("Messaggio conferma account OK.");
 
 		// === CONTINUE dopo registrazione ===
+		MessaggiSistemaPage messaggiSistema = new MessaggiSistemaPage(driver);
 		ExtentLogger.info("Click sul pulsante 'Continue'.--->DOPO REGISTRAZIONE");
 		LoggerUtils.info("Click su Continue dopo creazione account.");
-		formRegistrazione.clickContinueDopoCompilazioneForm();
+		messaggiSistema.clickContinue();
 
 		// === VERIFICA UTENTE LOGGATO ===
 		ExtentLogger.info("Verifica utente loggato.");
@@ -116,7 +117,7 @@ public class RegisterTest extends BaseTest {
 
 		UtenteLoggedPage utenteLoggato = new UtenteLoggedPage(driver);
 
-		assertTrue(utenteLoggato.verificaMessaggio(user.getNome()), "L'utente NON risulta loggato correttamente.");
+		assertTrue(utenteLoggato.verificaMessaggioLoggedUtente(user.getNome()), "L'utente NON risulta loggato correttamente.");
 
 		ExtentLogger.pass("Utente loggato correttamente.");
 		LoggerUtils.info("Login verificato.");
@@ -134,7 +135,7 @@ public class RegisterTest extends BaseTest {
 
 		// === CONTINUE ELIMINAZIONE ACCOUNT ===
 		ExtentLogger.info("Click sul pulsante 'Continue'.--->DOPO ELIMINAZIONE ACCOUNT");
-		formRegistrazione.clickContinueDopoCompilazioneForm();
+		messaggiSistema.clickContinue();
 		ExtentLogger.pass("Account eliminato correttamente.");
 
 		// ==VERIFICO CHE NON ESESISTE L'ACCOUNT===

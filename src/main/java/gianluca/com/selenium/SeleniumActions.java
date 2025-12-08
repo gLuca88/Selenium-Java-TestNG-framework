@@ -130,4 +130,21 @@ public class SeleniumActions implements ISeleniumActions {
 		}
 	}
 
+	@Override
+	public boolean isTextEqual(By locator, String expected) {
+		try {
+			String actual = getText(locator).trim();
+
+			LoggerUtils.info("Confronto testo → Atteso: '" + expected + "' | Ottenuto: '" + actual + "'");
+			ExtentLogger.info("Verifica testo UI");
+
+			return actual.equalsIgnoreCase(expected);
+
+		} catch (Exception e) {
+			LoggerUtils.error("Errore confronto testo su locator " + locator + ": " + e.getMessage());
+			ExtentLogger.fail("Errore durante il confronto del testo UI");
+			return false;
+		}
+	}
+
 }
