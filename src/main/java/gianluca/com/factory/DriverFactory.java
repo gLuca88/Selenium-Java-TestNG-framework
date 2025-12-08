@@ -21,7 +21,9 @@ public class DriverFactory {
 		if (browserDriver == null) {
 			throw new RuntimeException("Browser non supportato: " + browser);
 		}
-
+		
+	
+		
 		driver.set(browserDriver.createDriver());
 	}
 

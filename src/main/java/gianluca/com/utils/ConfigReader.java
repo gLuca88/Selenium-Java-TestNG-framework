@@ -26,6 +26,14 @@ public class ConfigReader {
 	}
 
 	public static String getProperty(String key) {
+
+		// Se esiste una system property (-Dkey=value), usa quella
+		String sysValue = System.getProperty(key);
+		// Usa la system property SOLO se ha un valore valido
+		if (sysValue != null && !sysValue.isBlank()) {
+			return sysValue;
+		}
+		// Altrimenti leggi dal file .properties
 		return properties.getProperty(key);
 	}
 }
