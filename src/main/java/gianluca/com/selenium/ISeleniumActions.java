@@ -1,6 +1,7 @@
 package gianluca.com.selenium;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public interface ISeleniumActions {
 
@@ -19,5 +20,9 @@ public interface ISeleniumActions {
 	void selectByValue(By locator, String value);
 
 	boolean isTextEqual(By locator, String expected);
+
+	WebElement createWebElement(By locator);
+
+	void scrollToElement(By locator);
 
 }

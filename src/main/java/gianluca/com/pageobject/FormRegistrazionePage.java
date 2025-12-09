@@ -69,6 +69,7 @@ public class FormRegistrazionePage extends BasePage {
 	// Metodo aggregato per tutta la prima sezione
 	public void compilaInformazioniAccount(UtenteRegistrazione user) {
 		selezionaTitolo(user.getSesso());
+		actions.scrollToElement(input_Password);
 		inserisciPassword(user.getPassword());
 		selezionaData(user.getGiornoNascita(), user.getMeseNascita(), user.getAnnoNascita());
 		gestisciCheckbox(user.isNewsletter(), user.isOfferteSpeciali());
@@ -86,6 +87,7 @@ public class FormRegistrazionePage extends BasePage {
 	}
 
 	private void inserisciIndirizzi(String address1, String address2) {
+
 		actions.type(input_AddressUno, address1);
 		actions.type(input_AddressDue, address2);
 	}
@@ -105,8 +107,10 @@ public class FormRegistrazionePage extends BasePage {
 	public void compilaIndirizzo(UtenteRegistrazione user) {
 		inserisciDatiAnagrafici(user.getNome(), user.getCognome(), user.getAzienda());
 		inserisciIndirizzi(user.getIndirizzo1(), user.getIndirizzo2());
+		actions.scrollToElement(input_Company);
 		selezionaPaese(user.getPaese());
 		inserisciLocalita(user.getStato(), user.getCitta(), user.getCap(), user.getTelefono());
+		actions.scrollToElement(input_Telefono);
 	}
 
 	// Invio finale del form

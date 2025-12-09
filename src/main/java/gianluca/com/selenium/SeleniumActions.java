@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -145,6 +146,20 @@ public class SeleniumActions implements ISeleniumActions {
 			ExtentLogger.fail("Errore durante il confronto del testo UI");
 			return false;
 		}
+	}
+
+	@Override
+	public WebElement createWebElement(By locator) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+	}
+
+	@Override
+	public void scrollToElement(By locator) {
+		WebElement element = createWebElement(locator);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", element);
 	}
 
 }
