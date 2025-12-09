@@ -16,15 +16,14 @@ public class DriverFactory {
 
 	public static void initDriver() {
 		String browser = ConfigReader.getProperty("browser").toLowerCase();
+		boolean headless = Boolean.parseBoolean(ConfigReader.getProperty("headless"));
 
 		BrowserDriver browserDriver = DRIVERS.get(browser);
 		if (browserDriver == null) {
 			throw new RuntimeException("Browser non supportato: " + browser);
 		}
-		
-	
-		
-		driver.set(browserDriver.createDriver());
+
+		driver.set(browserDriver.createDriver(headless));
 	}
 
 	public static WebDriver getDriver() {
