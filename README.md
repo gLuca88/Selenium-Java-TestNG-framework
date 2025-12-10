@@ -7,6 +7,9 @@ professionale di driver, reportistica, log, wrapper Selenium e Page
 Object Model.
 
 ------------------------------------------------------------------------
+## 🧪 Test Implementati
+-   RegisterTest.testRegistrazioneEliminazione()
+Simula l’intero flusso utente di registrazione, login e cancellazione account, verificando tutte le UI critical
 
 ## Stack Tecnico
 
