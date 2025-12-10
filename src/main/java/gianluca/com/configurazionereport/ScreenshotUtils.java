@@ -17,14 +17,13 @@ public class ScreenshotUtils {
 	public static String takeScreenshot(String testName) {
 		WebDriver driver = DriverFactory.getDriver();
 
-		File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-		String folderPath = RUN_FOLDER + "screenshots/";
+		String folderPath = RUN_FOLDER + "screenshots/" + testName + "/";
 		new File(folderPath).mkdirs();
 
-		String screenshotPath = folderPath + testName + "_" + System.currentTimeMillis() + ".png";
+		String screenshotPath = folderPath + System.currentTimeMillis() + ".png";
 
 		try {
+			File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			Files.copy(src.toPath(), new File(screenshotPath).toPath());
 		} catch (IOException e) {
 			throw new RuntimeException("Errore salvataggio screenshot", e);

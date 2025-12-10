@@ -1,6 +1,8 @@
 package gianluca.com.tests;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
@@ -8,6 +10,7 @@ import gianluca.com.basefactory.BaseTest;
 import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.datatestmodel.UtenteRegistrazione;
+
 import gianluca.com.pageobject.FormRegistrazionePage;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginRegistrazionePage;
@@ -23,7 +26,7 @@ public class RegisterTest extends BaseTest {
 	@Test
 	public void testRegistrazioneEliminazione() {
 
-		HomePage home = new HomePage(driver);
+		HomePage home = new HomePage(getDriver());
 
 		String titoloAtteso = home.getTitoloAtteso();
 		String urlAtteso = home.getUrlAtteso();
@@ -56,7 +59,7 @@ public class RegisterTest extends BaseTest {
 		home.clickSignUpLogin();
 
 		// ===== VERIFICA PAGINA DI REGISTRAZIONE =====
-		LoginRegistrazionePage registra = new LoginRegistrazionePage(driver);
+		LoginRegistrazionePage registra = new LoginRegistrazionePage(getDriver());
 
 		ExtentLogger.info("Verifica apertura form registrazione.");
 		String titoloAttesoPaginaRegistrazione = registra.getTitoloAttesoFormRegostrazione();
@@ -78,7 +81,7 @@ public class RegisterTest extends BaseTest {
 		registra.clickSignuUpRegistrazione();
 
 		// ===== COMPILAZIONE FORM REGISTRAZIONE =====
-		FormRegistrazionePage formRegistrazione = new FormRegistrazionePage(driver);
+		FormRegistrazionePage formRegistrazione = new FormRegistrazionePage(getDriver());
 
 		ExtentLogger.info(
 				"Compilazione dati account.(sesso,password,data,newsletter,ricevi regalo)---->FORM REGISTRAZIONE");
@@ -106,7 +109,7 @@ public class RegisterTest extends BaseTest {
 		LoggerUtils.info("Messaggio conferma account OK.");
 
 		// === CONTINUE dopo registrazione ===
-		MessaggiSistemaPage messaggiSistema = new MessaggiSistemaPage(driver);
+		MessaggiSistemaPage messaggiSistema = new MessaggiSistemaPage(getDriver());
 		ExtentLogger.info("Click sul pulsante 'Continue'.--->DOPO REGISTRAZIONE");
 		LoggerUtils.info("Click su Continue dopo creazione account.");
 		messaggiSistema.clickContinue();
@@ -115,9 +118,10 @@ public class RegisterTest extends BaseTest {
 		ExtentLogger.info("Verifica utente loggato.");
 		LoggerUtils.info("Controllo nome utente loggato → atteso: " + user.getNome());
 
-		UtenteLoggedPage utenteLoggato = new UtenteLoggedPage(driver);
+		UtenteLoggedPage utenteLoggato = new UtenteLoggedPage(getDriver());
 
-		assertTrue(utenteLoggato.verificaMessaggioLoggedUtente(user.getNome()), "L'utente NON risulta loggato correttamente.");
+		assertTrue(utenteLoggato.verificaMessaggioLoggedUtente(user.getNome()),
+				"L'utente NON risulta loggato correttamente.");
 
 		ExtentLogger.pass("Utente loggato correttamente.");
 		LoggerUtils.info("Login verificato.");
