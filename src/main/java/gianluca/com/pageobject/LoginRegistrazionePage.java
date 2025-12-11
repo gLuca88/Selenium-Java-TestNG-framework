@@ -14,13 +14,22 @@ public class LoginRegistrazionePage extends BasePage {
 
 	}
 
-	private By containerTitoloFormRegistrazione = By.xpath("//div[contains(@class,'signup-form')]/h2");
-	private By input_Name = By.cssSelector("input[data-qa='signup-name']");
-	private By input_Email = By.cssSelector("input[data-qa='signup-email']");
+	private By container_TitoloFormRegistrazione = By.xpath("//div[contains(@class,'signup-form')]/h2");
+	private By input_NameRegistrazione = By.cssSelector("input[data-qa='signup-name']");
+	private By input_EmailRegistrazione = By.cssSelector("input[data-qa='signup-email']");
 	private By button_SignUpRegistrazione = By.cssSelector("button[data-qa='signup-button']");
 
+	private By container_TitoloFormLogin = By.xpath("//div[contains(@class,'login-form')]/h2");
+	private By input_EmailLogin = By.cssSelector("input[data-qa='login-email']");
+	private By input_PasswordLogin = By.cssSelector("input[data-qa='login-password']");
+	private By button_Login=By.cssSelector("button[data-qa='login-button']");
+
 	public String getTextTitoloFormRegistrazione() {
-		return actions.getText(containerTitoloFormRegistrazione);
+		return actions.getText(container_TitoloFormRegistrazione);
+	}
+
+	public String getTextTitoloLoginForm() {
+		return actions.getText(container_TitoloFormLogin);
 	}
 
 	public String getTitoloAttesoFormRegostrazione() {
@@ -28,8 +37,18 @@ public class LoginRegistrazionePage extends BasePage {
 	}
 
 	public void inserisciNomeEmailRegistrazione(String nome, String email) {
-		actions.type(input_Name, nome);
-		actions.type(input_Email, email);
+		actions.type(input_NameRegistrazione, nome);
+		actions.type(input_EmailRegistrazione, email);
+	}
+
+	public void inserisciNomeEmailLogin(String email, String password) {
+
+		actions.type(input_EmailLogin, email);
+		actions.type(input_PasswordLogin, password);
+	}
+	
+	public void clickButtonLogin() {
+		actions.click(button_Login);
 	}
 
 	public void clickSignuUpRegistrazione() {

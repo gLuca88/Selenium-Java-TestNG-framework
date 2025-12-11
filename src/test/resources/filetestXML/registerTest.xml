@@ -8,6 +8,7 @@
 	<test name="Register Test">
 		<classes>
 			<class name="gianluca.com.tests.RegisterTest" />
+			<class name="gianluca.com.tests.LoginTest" />
 		</classes>
 	</test>
 
