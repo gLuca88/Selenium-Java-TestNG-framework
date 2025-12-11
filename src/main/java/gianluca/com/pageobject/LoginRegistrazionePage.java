@@ -22,7 +22,8 @@ public class LoginRegistrazionePage extends BasePage {
 	private By container_TitoloFormLogin = By.xpath("//div[contains(@class,'login-form')]/h2");
 	private By input_EmailLogin = By.cssSelector("input[data-qa='login-email']");
 	private By input_PasswordLogin = By.cssSelector("input[data-qa='login-password']");
-	private By button_Login=By.cssSelector("button[data-qa='login-button']");
+	private By button_Login = By.cssSelector("button[data-qa='login-button']");
+	private By messaggioErroreLogin = By.xpath("//div[contains(@class,'login-form')]//p");
 
 	public String getTextTitoloFormRegistrazione() {
 		return actions.getText(container_TitoloFormRegistrazione);
@@ -32,6 +33,7 @@ public class LoginRegistrazionePage extends BasePage {
 		return actions.getText(container_TitoloFormLogin);
 	}
 
+	// metodo per titoloatteso da modficare e togliere
 	public String getTitoloAttesoFormRegostrazione() {
 		return titoloAttesoFormRegoistrazione;
 	}
@@ -46,12 +48,33 @@ public class LoginRegistrazionePage extends BasePage {
 		actions.type(input_EmailLogin, email);
 		actions.type(input_PasswordLogin, password);
 	}
-	
+
 	public void clickButtonLogin() {
 		actions.click(button_Login);
 	}
 
 	public void clickSignuUpRegistrazione() {
 		actions.click(button_SignUpRegistrazione);
+	}
+
+	public String getLoginValidationMessage() {
+
+		// verifica browser campoemail
+		String emailValidation = actions.getValidationMessage(input_EmailLogin);
+		if (emailValidation != null && !emailValidation.isEmpty()) {
+			return emailValidation.trim();
+		}
+		// Verifica campo Password
+		String passwordValidation = actions.getValidationMessage(input_PasswordLogin);
+		if (passwordValidation != null && !passwordValidation.isEmpty()) {
+			return passwordValidation.trim();
+		}
+		// Se non ci sono validationMessage --->controllo messaggio backend nel DOM
+		if (actions.isDisplayed(messaggioErroreLogin)) {
+			String backendMsg = actions.getText(messaggioErroreLogin).trim();
+
+			return backendMsg;
+		}
+		return "";
 	}
 }

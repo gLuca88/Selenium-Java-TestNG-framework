@@ -3,11 +3,15 @@ package gianluca.com.tests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.util.List;
+
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import gianluca.com.basefactory.BaseTest;
 import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
+import gianluca.com.datatestmodel.LoginInvalidData;
 import gianluca.com.datatestmodel.UtenteRegistrato;
 import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginRegistrazionePage;
@@ -72,7 +76,65 @@ public class LoginTest extends BaseTest {
 		LoggerUtils.info("Login verificato.");
 
 	}
-	
-	
+
+	@DataProvider(name = "invalidLoginData")
+	public Object[][] invalidLoginData() {
+
+		List<LoginInvalidData> dataList = JsonUtils.readJsonArray("dataJson/loginInvalid.json", LoginInvalidData.class);
+
+		Object[][] data = new Object[dataList.size()][1];
+
+		for (int i = 0; i < dataList.size(); i++) {
+			data[i][0] = dataList.get(i);
+		}
+
+		return data;
+	}
+
+	@Test(dataProvider = "invalidLoginData")
+	public void loginInvalid(LoginInvalidData data) {
+		HomePage home = new HomePage(getDriver());
+		String titoloAtteso = home.getTitoloAtteso();
+		String urlAtteso = home.getUrlAtteso();
+		// ===== COOKIE =====
+		ExtentLogger.info("Gestione cookie (se presenti).");
+		LoggerUtils.info("Controllo presenza cookie banner...");
+		home.gestisciCookie();
+		// ===== NAVBAR =====
+		ExtentLogger.info("Verifica visibilità navbar.");
+		LoggerUtils.info("Verifica navbar...");
+		assertTrue(home.isNavbarVisible(), "Navbar non visibile.");
+		// ===== URL =====
+		ExtentLogger.info("Verifica correttezza URL.");
+		String urlOttenuto = home.getUrldriver();
+		LoggerUtils.info("URL atteso: " + urlAtteso + " | ottenuto: " + urlOttenuto);
+		assertTrue(home.isUrlCorrect(), "URL non corretta.");
+		// ===== TITOLO =====
+		ExtentLogger.info("Verifica titolo pagina.");
+		String titoloOttenuto = home.getTitoloPaginaDriver();
+		LoggerUtils.info("Titolo atteso: " + titoloAtteso + " | ottenuto: " + titoloOttenuto);
+		assertTrue(home.isTitleCorrect(), "Titolo non corretto.");
+		// ===== NAVIGAZIONE A SIGNUP =====
+		ExtentLogger.info("Navigazione alla pagina Signup/Login.-->CLICK BUTTON LOGIN/SIGNUP HOME PAGE");
+		LoggerUtils.info("Click su 'Signup / Login'.");
+		home.clickSignUpLogin();
+		// ===== INSERISCI NOME + EMAIL =====
+		LoginRegistrazionePage login = new LoginRegistrazionePage(getDriver());
+		ExtentLogger.info("Inserimento nome ed email.--->PAGINA LOGIN");
+		LoggerUtils.info("Compilazione nome + email dal JSON.");
+		login.inserisciNomeEmailLogin(data.getEmail(), data.getPassword());
+		// ===== CLICK LOGIN =====
+		ExtentLogger.info("Click sul pulsante login--->PAGINA LOGIN");
+		login.clickButtonLogin();
+		// ===== LETTURA MESSAGGIO DI VALIDAZIONE =====
+		String actualMessage = login.getLoginValidationMessage();
+		ExtentLogger.info("Messaggio ottenuto: " + actualMessage);
+		ExtentLogger.info("Messaggio atteso: " + data.getExpectedMessage());
+		LoggerUtils.info("Messaggio ottenuto: " + actualMessage + " | Atteso: " + data.getExpectedMessage());
+		// ===== ASSERT =====
+		assertEquals(actualMessage, data.getExpectedMessage());
+		LoggerUtils.info("Confronto messaggi → PASS");
+		ExtentLogger.pass("Messaggio corretto");
+	}
 
 }

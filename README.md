@@ -8,8 +8,23 @@ Object Model.
 
 ------------------------------------------------------------------------
 ## 🧪 Test Implementati
--   RegisterTest.testRegistrazioneEliminazione()
+- **RegisterTest.testRegistrazioneEliminazione()**
 Simula l’intero flusso utente di registrazione, login e cancellazione account, verificando tutte le UI critical
+- **LoginTest.testLoginValid()**  
+  Verifica che un utente registrato possa autenticarsi correttamente e procedere alla cancellazione del proprio account, controllando messaggi, redirect e stato dell’utente loggato.
+- **LoginTest.loginInvalid()**  
+  Esegue automaticamente 10 combinazioni di login non valido utilizzando un DataProvider, validando sia i messaggi di errore generati dal browser (HTML5 validation) sia quelli restituiti dal backend.
+
+## ▶️ Comando per eseguire tutti i test
+Per lanciare l’intera suite di test tramite Maven:
+mvn clean test -Denv=qa -Dbrowser=chrome -Dheadless=false "-Dtestng.suite=src/test/resources/filetestXML/runAllTsets.xml"
+Questo comando:
+- Pulizia del progetto (`clean`)
+- Esecuzione dei test TestNG (`test`)
+- Imposta l’ambiente (`env=qa`)
+- Seleziona il browser (`browser=chrome`)
+- Decide se eseguire in headless o meno (`headless=false`)
+- Specifica il file XML da eseguire (in questo esempio `runAllTsets.xml`)
 
 ## Stack Tecnico
 
@@ -131,9 +146,9 @@ public class LoginPage extends BasePage {
     private By passwordField = By.id("pass");
 
     public void login(String user, String pass) {
-        selenium.write(usernameField, user);
-        selenium.write(passwordField, pass);
-        selenium.click(By.id("login"));
+        actions.write(usernameField, user);
+        actions.write(passwordField, pass);
+        actions.click(By.id("login"));
     }
 }
 ```

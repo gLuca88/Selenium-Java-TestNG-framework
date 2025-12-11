@@ -162,4 +162,21 @@ public class SeleniumActions implements ISeleniumActions {
 		js.executeScript("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", element);
 	}
 
+	@Override
+	public String getValidationMessage(By locator) {
+		try {
+			WebElement element = driver.findElement(locator);
+			String message = element.getAttribute("validationMessage");
+
+			LoggerUtils.info("validationMessage su " + locator + " = " + message);
+			ExtentLogger.info("Browser validation message: " + message);
+
+			return message != null ? message : "";
+
+		} catch (Exception e) {
+			LoggerUtils.warn("Impossibile ottenere il validationMessage per: " + locator);
+			return "";
+		}
+	}
+
 }
