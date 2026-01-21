@@ -13,7 +13,7 @@ import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.datatestmodel.LoginInvalidData;
 import gianluca.com.datatestmodel.UtenteRegistrato;
-import gianluca.com.pageobject.HomePage;
+
 import gianluca.com.pageobject.LoginRegistrazionePage;
 import gianluca.com.pageobject.UtenteLoggedPage;
 import gianluca.com.utilstest.JsonUtils;
@@ -25,31 +25,9 @@ public class LoginTest extends BaseTest {
 		UtenteRegistrato utenteRegistrato = JsonUtils.readJsonFromResources("dataJson/utenteRegistrato.json",
 				UtenteRegistrato.class);
 
-		HomePage home = new HomePage(getDriver());
-		String titoloAtteso = home.getTitoloAtteso();
-		String urlAtteso = home.getUrlAtteso();
-		// ===== COOKIE =====
-		ExtentLogger.info("Gestione cookie (se presenti).");
-		LoggerUtils.info("Controllo presenza cookie banner...");
-		home.gestisciCookie();
-		// ===== NAVBAR =====
-		ExtentLogger.info("Verifica visibilità navbar.");
-		LoggerUtils.info("Verifica navbar...");
-		assertTrue(home.isNavbarVisible(), "Navbar non visibile.");
-		// ===== URL =====
-		ExtentLogger.info("Verifica correttezza URL.");
-		String urlOttenuto = home.getUrldriver();
-		LoggerUtils.info("URL atteso: " + urlAtteso + " | ottenuto: " + urlOttenuto);
-		assertTrue(home.isUrlCorrect(), "URL non corretta.");
-		// ===== TITOLO =====
-		ExtentLogger.info("Verifica titolo pagina.");
-		String titoloOttenuto = home.getTitoloPaginaDriver();
-		LoggerUtils.info("Titolo atteso: " + titoloAtteso + " | ottenuto: " + titoloOttenuto);
-		assertTrue(home.isTitleCorrect(), "Titolo non corretto.");
-		// ===== NAVIGAZIONE A SIGNUP =====
-		ExtentLogger.info("Navigazione alla pagina Signup/Login.-->CLICK BUTTON LOGIN/SIGNUP HOME PAGE");
-		LoggerUtils.info("Click su 'Signup / Login'.");
-		home.clickSignUpLogin();
+		// apertura login page e verifica url,navbar,titolo egestione cokkie se
+		// presenti(metodo in base test)
+		openLoginPage();
 		// ===== VERIFICA PAGINA DI LOGIN =====
 		LoginRegistrazionePage login = new LoginRegistrazionePage(getDriver());
 		ExtentLogger.info("Verifica apertura form login.");
@@ -93,31 +71,9 @@ public class LoginTest extends BaseTest {
 
 	@Test(dataProvider = "invalidLoginData")
 	public void loginInvalid(LoginInvalidData data) {
-		HomePage home = new HomePage(getDriver());
-		String titoloAtteso = home.getTitoloAtteso();
-		String urlAtteso = home.getUrlAtteso();
-		// ===== COOKIE =====
-		ExtentLogger.info("Gestione cookie (se presenti).");
-		LoggerUtils.info("Controllo presenza cookie banner...");
-		home.gestisciCookie();
-		// ===== NAVBAR =====
-		ExtentLogger.info("Verifica visibilità navbar.");
-		LoggerUtils.info("Verifica navbar...");
-		assertTrue(home.isNavbarVisible(), "Navbar non visibile.");
-		// ===== URL =====
-		ExtentLogger.info("Verifica correttezza URL.");
-		String urlOttenuto = home.getUrldriver();
-		LoggerUtils.info("URL atteso: " + urlAtteso + " | ottenuto: " + urlOttenuto);
-		assertTrue(home.isUrlCorrect(), "URL non corretta.");
-		// ===== TITOLO =====
-		ExtentLogger.info("Verifica titolo pagina.");
-		String titoloOttenuto = home.getTitoloPaginaDriver();
-		LoggerUtils.info("Titolo atteso: " + titoloAtteso + " | ottenuto: " + titoloOttenuto);
-		assertTrue(home.isTitleCorrect(), "Titolo non corretto.");
-		// ===== NAVIGAZIONE A SIGNUP =====
-		ExtentLogger.info("Navigazione alla pagina Signup/Login.-->CLICK BUTTON LOGIN/SIGNUP HOME PAGE");
-		LoggerUtils.info("Click su 'Signup / Login'.");
-		home.clickSignUpLogin();
+		// apertura login page e verifica url,navbar,titolo egestione cokkie se
+		// presenti(metodo in base test)click button login
+		openLoginPage();
 		// ===== INSERISCI NOME + EMAIL =====
 		LoginRegistrazionePage login = new LoginRegistrazionePage(getDriver());
 		ExtentLogger.info("Inserimento nome ed email.--->PAGINA LOGIN");
