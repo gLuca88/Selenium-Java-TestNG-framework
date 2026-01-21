@@ -5,27 +5,29 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import gianluca.com.configurazionereport.ExtentLogger;
+import gianluca.com.configurazionereport.ExtentReportManager;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.configurazionereport.ReportFactory;
-import gianluca.com.configurazionereport.IReportManager;
 import gianluca.com.configurazionereport.ScreenshotUtils;
+import gianluca.com.factory.DriverFactory;
 import gianluca.com.utils.ConfigReader;
 
 public class TestListener implements ITestListener {
 
-	private IReportManager reportManager;
+	private ExtentReportManager reportManager;
 
 	@Override
 	public void onStart(ITestContext context) {
 
-		reportManager = ReportFactory.get(ConfigReader.getProperty("report"));
-		ExtentLogger.setManager(reportManager);
+		reportManager = (ExtentReportManager) ReportFactory.get(ConfigReader.getProperty("report"));
+
+		// inizializza UNA SOLA VOLTA
+		ExtentLogger.init(reportManager);
 
 		LoggerUtils.info("SUITE STARTED: " + context.getName());
-		reportManager.onStartSuite(context.getName());
 
+		reportManager.onStartSuite(context.getName());
 		reportManager.setSystemInfo("Browser", ConfigReader.getProperty("browser"));
-		reportManager.setSystemInfo("Environment", System.getProperty("env"));
 		reportManager.setSystemInfo("Headless", ConfigReader.getProperty("headless"));
 	}
 
@@ -33,7 +35,6 @@ public class TestListener implements ITestListener {
 	public void onFinish(ITestContext context) {
 		LoggerUtils.info("SUITE FINISHED: " + context.getName());
 		reportManager.onFinishSuite(context.getName());
-		ExtentLogger.clear();
 	}
 
 	@Override
@@ -44,21 +45,32 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		LoggerUtils.info("TEST PASSED: " + result.getName());
-		reportManager.onTestSuccess(result);
+		try {
+			LoggerUtils.info("TEST PASSED: " + result.getName());
+			reportManager.onTestSuccess(result);
+		} finally {
+			DriverFactory.quitDriver();
+		}
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		LoggerUtils.error("TEST FAILED: " + result.getName());
-
-		String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
-		reportManager.onTestFailure(result, screenshotPath);
+		try {
+			LoggerUtils.error("TEST FAILED: " + result.getName());
+			String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
+			reportManager.onTestFailure(result, screenshotPath);
+		} finally {
+			DriverFactory.quitDriver();
+		}
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		LoggerUtils.warn("TEST SKIPPED: " + result.getName());
-		reportManager.onTestSkipped(result);
+		try {
+			LoggerUtils.warn("TEST SKIPPED: " + result.getName());
+			reportManager.onTestSkipped(result);
+		} finally {
+			DriverFactory.quitDriver();
+		}
 	}
 }

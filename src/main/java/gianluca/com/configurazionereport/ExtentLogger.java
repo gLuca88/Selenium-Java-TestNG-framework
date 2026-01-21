@@ -4,31 +4,23 @@ import com.aventstack.extentreports.Status;
 
 public class ExtentLogger {
 
-	private static ThreadLocal<IReportManager> report = new ThreadLocal<>();
+    private static ExtentReportManager manager;
 
-	public static void setManager(IReportManager manager) {
-		report.set(manager);
-	}
+    private ExtentLogger() {}
 
-	public static void clear() {
-		report.remove();
-	}
+    public static void init(ExtentReportManager reportManager) {
+        manager = reportManager;
+    }
 
-	private static void log(Status status, String message) {
-		IReportManager r = report.get();
-		if (r != null)
-			r.log(status, message);
-	}
+    public static void info(String message) {
+        manager.log(Status.INFO, message);
+    }
 
-	public static void info(String message) {
-		log(Status.INFO, message);
-	}
+    public static void pass(String message) {
+        manager.log(Status.PASS, message);
+    }
 
-	public static void pass(String message) {
-		log(Status.PASS, message);
-	}
-
-	public static void fail(String message) {
-		log(Status.FAIL, message);
-	}
+    public static void fail(String message) {
+        manager.log(Status.FAIL, message);
+    }
 }
