@@ -126,7 +126,7 @@ public class RegisterTest extends BaseTest {
 		ExtentLogger.info("verifica container utente loggato dopo il click");
 		assertFalse(utenteLoggato.verificaPresenzaContainerUtenteLoggato(),
 				"il nome utente ancora compare nella pagina dopo l'eliminazione");
-		ExtentLogger.info("ACCOUNT NON COMPARE DOPO IL CLICK CONTINUE");
+		ExtentLogger.info("ACCOUNT NON COMPARE DOPO IL CLICK CONTINUE-->ACCOUNT ELIMINATO");
 
 	}
 }

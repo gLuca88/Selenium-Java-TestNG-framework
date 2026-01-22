@@ -115,6 +115,7 @@ public class FormRegistrazionePage extends BasePage {
 
 	// Invio finale del form
 	public void cliccaCreaAccount() {
+		actions.scrollToElement(button_CreaAccount);
 		actions.click(button_CreaAccount);
 	}
 

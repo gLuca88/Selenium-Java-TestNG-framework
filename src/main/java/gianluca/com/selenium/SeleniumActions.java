@@ -13,15 +13,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
+import gianluca.com.utils.AdsHandler;
 
 public class SeleniumActions implements ISeleniumActions {
 
 	private final WebDriver driver;
 	private final WebDriverWait wait;
+	private final AdsHandler adsHandler;
 
 	public SeleniumActions(WebDriver driver) {
 		this.driver = driver;
 		this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		this.adsHandler = new AdsHandler(driver);
 	}
 
 	/*
@@ -44,6 +47,7 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public void click(By locator) {
 		try {
+			adsHandler.hideAdsIframeIfPresent(); // 👈 QUI
 			WebElement element = waitClickable(locator);
 			element.click();
 
@@ -60,6 +64,7 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public void type(By locator, String text) {
 		try {
+			adsHandler.hideAdsIframeIfPresent();
 			WebElement element = waitVisible(locator);
 			element.clear();
 			element.sendKeys(text);
@@ -77,6 +82,7 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public String getText(By locator) {
 		try {
+			adsHandler.hideAdsIframeIfPresent();
 			WebElement element = waitVisible(locator);
 			String value = element.getText();
 
@@ -124,6 +130,7 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public void selectByValue(By locator, String value) {
 		try {
+			adsHandler.hideAdsIframeIfPresent();
 			WebElement element = waitVisible(locator);
 			Select select = new Select(element);
 			select.selectByValue(value);
@@ -171,6 +178,7 @@ public class SeleniumActions implements ISeleniumActions {
 	@Override
 	public String getValidationMessage(By locator) {
 		try {
+			adsHandler.hideAdsIframeIfPresent();
 			WebElement element = driver.findElement(locator);
 			String message = element.getAttribute("validationMessage");
 

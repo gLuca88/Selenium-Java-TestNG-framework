@@ -1,6 +1,7 @@
 package gianluca.com.pageobject;
 
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 
 import gianluca.com.selenium.BasePage;
@@ -24,7 +25,9 @@ public class UtenteLoggedPage extends BasePage {
 	}
 
 	public boolean verificaMessaggioAccountCancellato(String messaggioAtteso) {
+
 		return actions.isTextEqual(container_MessaggioAccountCancellato, messaggioAtteso);
+
 	}
 
 	public boolean verificaPresenzaContainerUtenteLoggato() {
