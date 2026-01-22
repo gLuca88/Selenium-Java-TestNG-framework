@@ -63,4 +63,9 @@ public class HomePage extends BasePage {
 	public void clickSignUpLogin() {
 		actions.click(button_SignUpLogin);
 	}
+
+	public boolean isHomePageVisible() {
+		return isNavbarVisible() && isTitleCorrect() && isUrlCorrect();
+	}
+
 }

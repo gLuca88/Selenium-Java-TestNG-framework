@@ -13,7 +13,7 @@ import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.datatestmodel.LoginInvalidData;
 import gianluca.com.datatestmodel.UtenteRegistrato;
-
+import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginRegistrazionePage;
 import gianluca.com.pageobject.UtenteLoggedPage;
 import gianluca.com.utilstest.JsonUtils;
@@ -25,9 +25,14 @@ public class LoginTest extends BaseTest {
 		UtenteRegistrato utenteRegistrato = JsonUtils.readJsonFromResources("dataJson/utenteRegistrato.json",
 				UtenteRegistrato.class);
 
-		// apertura login page e verifica url,navbar,titolo egestione cokkie se
-		// presenti(metodo in base test)
-		openLoginPage();
+		// ===== HOME PAGE =====
+		HomePage home = new HomePage(getDriver());
+		ExtentLogger.info("Gestione cookie (se presenti).");
+		home.gestisciCookie();
+		ExtentLogger.info("Verifica homepage (URL, titolo, navbar).");
+		assertTrue(home.isHomePageVisible(), "Homepage non visibile correttamente");
+		ExtentLogger.info("Navigazione alla pagina Login / Signup.");
+		home.clickSignUpLogin();
 		// ===== VERIFICA PAGINA DI LOGIN =====
 		LoginRegistrazionePage login = new LoginRegistrazionePage(getDriver());
 		ExtentLogger.info("Verifica apertura form login.");
@@ -71,9 +76,18 @@ public class LoginTest extends BaseTest {
 
 	@Test(dataProvider = "invalidLoginData")
 	public void loginInvalid(LoginInvalidData data) {
-		// apertura login page e verifica url,navbar,titolo egestione cokkie se
-		// presenti(metodo in base test)click button login
-		openLoginPage();
+
+		// ===== HOME PAGE =====
+		HomePage home = new HomePage(getDriver());
+
+		ExtentLogger.info("Gestione cookie (se presenti).");
+		home.gestisciCookie();
+
+		ExtentLogger.info("Verifica homepage (URL, titolo, navbar).");
+		assertTrue(home.isHomePageVisible(), "Homepage non visibile correttamente");
+
+		ExtentLogger.info("Navigazione alla pagina Login / Signup.");
+		home.clickSignUpLogin();
 		// ===== INSERISCI NOME + EMAIL =====
 		LoginRegistrazionePage login = new LoginRegistrazionePage(getDriver());
 		ExtentLogger.info("Inserimento nome ed email.--->PAGINA LOGIN");

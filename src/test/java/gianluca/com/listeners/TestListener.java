@@ -9,7 +9,6 @@ import gianluca.com.configurazionereport.ExtentReportManager;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.configurazionereport.ReportFactory;
 import gianluca.com.configurazionereport.ScreenshotUtils;
-import gianluca.com.factory.DriverFactory;
 import gianluca.com.utils.ConfigReader;
 
 public class TestListener implements ITestListener {
@@ -45,32 +44,20 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		try {
-			LoggerUtils.info("TEST PASSED: " + result.getName());
-			reportManager.onTestSuccess(result);
-		} finally {
-			DriverFactory.quitDriver();
-		}
+	    LoggerUtils.info("TEST PASSED: " + result.getName());
+	    reportManager.onTestSuccess(result);
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		try {
-			LoggerUtils.error("TEST FAILED: " + result.getName());
-			String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
-			reportManager.onTestFailure(result, screenshotPath);
-		} finally {
-			DriverFactory.quitDriver();
-		}
+	    LoggerUtils.error("TEST FAILED: " + result.getName());
+	    String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
+	    reportManager.onTestFailure(result, screenshotPath);
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		try {
-			LoggerUtils.warn("TEST SKIPPED: " + result.getName());
-			reportManager.onTestSkipped(result);
-		} finally {
-			DriverFactory.quitDriver();
-		}
+	    LoggerUtils.warn("TEST SKIPPED: " + result.getName());
+	    reportManager.onTestSkipped(result);
 	}
 }

@@ -1,6 +1,8 @@
 package gianluca.com.tests;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
 
@@ -8,8 +10,8 @@ import gianluca.com.basefactory.BaseTest;
 import gianluca.com.configurazionereport.ExtentLogger;
 import gianluca.com.configurazionereport.LoggerUtils;
 import gianluca.com.datatestmodel.UtenteRegistrazione;
-
 import gianluca.com.pageobject.FormRegistrazionePage;
+import gianluca.com.pageobject.HomePage;
 import gianluca.com.pageobject.LoginRegistrazionePage;
 import gianluca.com.pageobject.MessaggiSistemaPage;
 import gianluca.com.pageobject.UtenteLoggedPage;
@@ -23,10 +25,18 @@ public class RegisterTest extends BaseTest {
 	@Test
 	public void testRegistrazioneEliminazione() {
 
-		// apertura login page e verifica url,navbar,titolo egestione cokkie se
-		// presenti(metodo in base test)
-		openLoginPage();
+		 // ===== HOME PAGE =====
+        HomePage home = new HomePage(getDriver());
 
+        ExtentLogger.info("Gestione cookie (se presenti).");
+        home.gestisciCookie();
+
+        ExtentLogger.info("Verifica homepage (URL, titolo, navbar).");
+        assertTrue(home.isHomePageVisible(),
+                "Homepage non visibile correttamente");
+
+        ExtentLogger.info("Navigazione alla pagina Login / Signup.");
+        home.clickSignUpLogin();
 		// ===== VERIFICA PAGINA DI REGISTRAZIONE =====
 		LoginRegistrazionePage registra = new LoginRegistrazionePage(getDriver());
 
