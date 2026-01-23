@@ -20,7 +20,6 @@ public class TestListener implements ITestListener {
 
 		reportManager = (ExtentReportManager) ReportFactory.get(ConfigReader.getProperty("report"));
 
-		// inizializza UNA SOLA VOLTA
 		ExtentLogger.init(reportManager);
 
 		LoggerUtils.info("SUITE STARTED: " + context.getName());
@@ -32,32 +31,31 @@ public class TestListener implements ITestListener {
 
 	@Override
 	public void onFinish(ITestContext context) {
+
 		LoggerUtils.info("SUITE FINISHED: " + context.getName());
 		reportManager.onFinishSuite(context.getName());
 	}
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		LoggerUtils.info("TEST START: " + result.getName());
 		reportManager.onTestStart(result);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-	    LoggerUtils.info("TEST PASSED: " + result.getName());
-	    reportManager.onTestSuccess(result);
+		reportManager.onTestSuccess(result);
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-	    LoggerUtils.error("TEST FAILED: " + result.getName());
-	    String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
-	    reportManager.onTestFailure(result, screenshotPath);
+
+		String screenshotPath = ScreenshotUtils.takeScreenshot(result.getName());
+
+		reportManager.onTestFailure(result, screenshotPath);
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-	    LoggerUtils.warn("TEST SKIPPED: " + result.getName());
-	    reportManager.onTestSkipped(result);
+		reportManager.onTestSkipped(result);
 	}
 }

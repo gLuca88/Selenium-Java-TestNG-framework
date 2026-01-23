@@ -85,11 +85,11 @@ public class LoggerUtils {
 		globalLogger.info(msg);
 	}
 
-	public static void error(String msg) {
+	public static void info(String msg, Throwable t) {
 		Logger logger = testLogger.get();
 		if (logger != null)
-			logger.error(msg);
-		globalLogger.error(msg);
+			logger.info(msg, t);
+		globalLogger.info(msg, t);
 	}
 
 	public static void warn(String msg) {
@@ -97,6 +97,27 @@ public class LoggerUtils {
 		if (logger != null)
 			logger.warn(msg);
 		globalLogger.warn(msg);
+	}
+
+	public static void warn(String msg, Throwable t) {
+		Logger logger = testLogger.get();
+		if (logger != null)
+			logger.warn(msg, t);
+		globalLogger.warn(msg, t);
+	}
+
+	public static void error(String msg) {
+		Logger logger = testLogger.get();
+		if (logger != null)
+			logger.error(msg);
+		globalLogger.error(msg);
+	}
+
+	public static void error(String msg, Throwable t) {
+		Logger logger = testLogger.get();
+		if (logger != null)
+			logger.error(msg, t);
+		globalLogger.error(msg, t);
 	}
 
 	public static String getTestLogPath(String testName) {

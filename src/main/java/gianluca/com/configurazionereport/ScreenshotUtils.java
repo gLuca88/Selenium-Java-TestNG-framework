@@ -1,7 +1,6 @@
 package gianluca.com.configurazionereport;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 
 import org.openqa.selenium.OutputType;
@@ -15,21 +14,28 @@ public class ScreenshotUtils {
 	private static final String RUN_FOLDER = "reports/" + TimeUtils.getTimestamp() + "/";
 
 	public static String takeScreenshot(String testName) {
+
 		WebDriver driver = DriverFactory.getDriver();
+		if (driver == null) {
+			return null;
+		}
 
-		String folderPath = RUN_FOLDER + "screenshots/" + testName + "/";
-		new File(folderPath).mkdirs();
+		String screenshotDir = RUN_FOLDER + "screenshots/" + testName + "/";
+		new File(screenshotDir).mkdirs();
 
-		String screenshotPath = folderPath + System.currentTimeMillis() + ".png";
+		String fileName = System.currentTimeMillis() + ".png";
+		String fullPath = screenshotDir + fileName;
 
 		try {
 			File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-			Files.copy(src.toPath(), new File(screenshotPath).toPath());
-		} catch (IOException e) {
-			throw new RuntimeException("Errore salvataggio screenshot", e);
+			Files.copy(src.toPath(), new File(fullPath).toPath());
+		} catch (Exception e) {
+			LoggerUtils.error("Errore screenshot", e);
+			return null;
 		}
 
-		return new File(screenshotPath).getAbsolutePath();
+		// 🔥 PATH RELATIVO AL REPORT
+		return "screenshots/" + testName + "/" + fileName;
 	}
 
 	public static String getRunFolder() {

@@ -1,7 +1,5 @@
 package gianluca.com.configurazionereport;
 
-import java.io.File;
-
 import org.testng.ITestResult;
 
 import com.aventstack.extentreports.ExtentReports;
@@ -15,9 +13,11 @@ public class ExtentReportManager implements IReportManager {
 	private ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
 	public ExtentReportManager() {
-		String reportPath = ScreenshotUtils.getRunFolder() + "ExtentReport_" + TimeUtils.getTimestamp() + ".html";
+
+		String reportPath = ScreenshotUtils.getRunFolder() + "ExtentReport.html";
 
 		ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+
 		extent = new ExtentReports();
 		extent.attachReporter(spark);
 	}
@@ -30,13 +30,12 @@ public class ExtentReportManager implements IReportManager {
 	@Override
 	public void onFinishSuite(String suiteName) {
 		extent.flush();
-		test.remove(); // ✅ SOLO QUI
 	}
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		String testName = result.getName();
 
+		String testName = result.getName();
 		LoggerUtils.startTestLogging(testName);
 
 		ExtentTest extentTest = extent.createTest(testName).assignAuthor("Gianluca");
@@ -46,30 +45,40 @@ public class ExtentReportManager implements IReportManager {
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		String testName = result.getName();
-		String logLink = buildLogLink(testName);
 
-		test.get().pass("Test superato");
-		test.get().info("📄 Log file: <a href='" + logLink + "' target='_blank'>Apri log</a>");
+		String testName = result.getName();
+
+		test.get().pass("✅ Test superato");
+		test.get().info("<a href='logs/" + testName + ".log' target='_blank'>📄 Apri log</a>");
 
 		LoggerUtils.stopTestLogging();
+		test.remove();
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result, String screenshotPath) {
-		String testName = result.getName();
-		String logLink = buildLogLink(testName);
 
-		test.get().fail("Errore: " + result.getThrowable());
-		test.get().fail("Screenshot:").addScreenCaptureFromPath(screenshotPath);
-		test.get().info("📄 Log file: <a href='" + logLink + "' target='_blank'>Apri log</a>");
+		String testName = result.getName();
+
+		test.get().fail("❌ Test fallito");
+		test.get().fail(result.getThrowable());
+
+		if (screenshotPath != null) {
+			test.get().fail("<a href='" + screenshotPath + "' target='_blank'>📸 Apri screenshot</a>");
+		}
+
+		test.get().info("<a href='logs/" + testName + ".log' target='_blank'>📄 Apri log</a>");
 
 		LoggerUtils.stopTestLogging();
+		test.remove();
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		test.get().skip("Test saltato");
+
+		test.get().skip("⚠️ Test saltato");
+		LoggerUtils.stopTestLogging();
+		test.remove();
 	}
 
 	@Override
@@ -82,10 +91,5 @@ public class ExtentReportManager implements IReportManager {
 		if (test.get() != null) {
 			test.get().log(status, message);
 		}
-	}
-
-	private String buildLogLink(String testName) {
-		String path = new File(LoggerUtils.getTestLogPath(testName)).getAbsolutePath().replace("\\", "/");
-		return "file:///" + path;
 	}
 }
