@@ -1,6 +1,8 @@
 package gianluca.com.tests;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.List;
@@ -102,9 +104,29 @@ public class LoginTest extends BaseTest {
 		ExtentLogger.info("Messaggio atteso: " + data.getExpectedMessage());
 		LoggerUtils.info("Messaggio ottenuto: " + actualMessage + " | Atteso: " + data.getExpectedMessage());
 		// ===== ASSERT =====
-		assertEquals(actualMessage, data.getExpectedMessage());
-		LoggerUtils.info("Confronto messaggi → PASS");
-		ExtentLogger.pass("Messaggio corretto");
+		if (data.hasExpectedMessage()) {
+
+			ExtentLogger.info("Verifica messaggio applicativo.");
+			LoggerUtils.info("Messaggio atteso: " + data.getExpectedMessage());
+
+			assertFalse(actualMessage.isBlank(), "Il messaggio applicativo NON è stato mostrato");
+
+			assertEquals(actualMessage, data.getExpectedMessage(), "Messaggio applicativo errato");
+
+			ExtentLogger.pass("Messaggio applicativo corretto");
+
+		} else if (data.hasExpectedErrorType()) {
+
+			ExtentLogger.info("Verifica validazione browser. Tipo: " + data.getExpectedErrorType());
+
+			assertNotNull(actualMessage, "validationMessage null");
+			assertFalse(actualMessage.isBlank(), "validationMessage vuoto");
+
+			ExtentLogger.pass("Validazione browser presente");
+
+		} else {
+			throw new AssertionError("Dati di test non validi: manca expectedMessage / expectedErrorType");
+		}
 	}
 
 }

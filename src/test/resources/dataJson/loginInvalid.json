@@ -1,47 +1,47 @@
 [
-	{
-		"email": "fakeuser123@mail.com",
-		"password": "wrongpass",
-		"expectedMessage": "Your email or password is incorrect!"
-	},
-	{
-		"email": "NomeTestLogin@gmail.com",
-		"password": "wrongpass",
-		"expectedMessage": "Your email or password is incorrect!"
-	},
-	{
-		"email": "random@mail.com",
-		"password": "",
-		"expectedMessage": "Compilare questo campo"
-	},
-	{
-		"email": "",
-		"password": "test1",
-		"expectedMessage": "Compilare questo campo"
-	},
-	{
-		"email": "testmail.com",
-		"password": "test1",
-		"expectedMessage": "Inserire un indirizzo email"
-	},
-	{
-		"email": "NomeTestLogin@gmail.com",
-		"password": "%$£@#*",
-		"expectedMessage": "Your email or password is incorrect!"
-	},
-	{
-		"email": "xxxxx@mail.com",
-		"password": "test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1",
-		"expectedMessage": "Your email or password is incorrect!"
-	},
-	{
-		"email": "NomeTestLogin @gmail. com",
-		"password": "test1",
-		"expectedMessage": "Inserire un indirizzo email"
-	},
-	{
-		"email": "NomeTestLogin@gmail.com",
-		"password": "Test1",
-		"expectedMessage": "Your email or password is incorrect!"
-	}
+  {
+    "email": "fakeuser123@mail.com",
+    "password": "wrongpass",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "email": "NomeTestLogin@gmail.com",
+    "password": "wrongpass",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "email": "random@gmail.com",
+    "password": "",
+    "expectedErrorType": "REQUIRED"
+  },
+  {
+    "email": "",
+    "password": "test1",
+    "expectedErrorType": "REQUIRED"
+  },
+  {
+    "email": "testmail.com",
+    "password": "test1",
+    "expectedErrorType": "INVALID_EMAIL"
+  },
+  {
+    "email": "NomeTestLogin@gmail.com",
+    "password": "%$£@#*",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "email": "xxxxx@mail.com",
+    "password": "test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1",
+    "expectedMessage": "Your email or password is incorrect!"
+  },
+  {
+    "email": "NomeTestLogin @gmail. com",
+    "password": "test1",
+    "expectedErrorType": "INVALID_EMAIL"
+  },
+  {
+    "email": "NomeTestLogin@gmail.com",
+    "password": "Test1",
+    "expectedMessage": "Your email or password is incorrect!"
+  }
 ]

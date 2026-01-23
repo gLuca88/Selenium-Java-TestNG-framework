@@ -59,22 +59,22 @@ public class LoginRegistrazionePage extends BasePage {
 
 	public String getLoginValidationMessage() {
 
-		// verifica browser campoemail
-		String emailValidation = actions.getValidationMessage(input_EmailLogin);
-		if (emailValidation != null && !emailValidation.isEmpty()) {
-			return emailValidation.trim();
-		}
-		// Verifica campo Password
-		String passwordValidation = actions.getValidationMessage(input_PasswordLogin);
-		if (passwordValidation != null && !passwordValidation.isEmpty()) {
-			return passwordValidation.trim();
-		}
-		// Se non ci sono validationMessage --->controllo messaggio backend nel DOM
+		//Messaggio applicativo (backend)
 		if (actions.isDisplayed(messaggioErroreLogin)) {
-			String backendMsg = actions.getText(messaggioErroreLogin).trim();
-
-			return backendMsg;
+			return actions.getText(messaggioErroreLogin).trim();
 		}
+
+		//Validazione HTML5 browser
+		String emailValidation = actions.getValidationMessage(input_EmailLogin);
+		if (!emailValidation.isBlank()) {
+			return emailValidation;
+		}
+
+		String passwordValidation = actions.getValidationMessage(input_PasswordLogin);
+		if (!passwordValidation.isBlank()) {
+			return passwordValidation;
+		}
+
 		return "";
 	}
 }

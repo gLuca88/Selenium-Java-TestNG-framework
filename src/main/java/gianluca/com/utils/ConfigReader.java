@@ -1,39 +1,50 @@
 package gianluca.com.utils;
 
-import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
-public class ConfigReader {
+public final class ConfigReader {
 
-	private static Properties properties = new Properties();
+	private static final Properties properties = new Properties();
 
 	static {
-		try {
-			// Legge l’ambiente indicato da -Denv=qa
-			String env = System.getProperty("env", "qa").toLowerCase();
+		loadEnvironmentProperties();
+	}
 
-			// Carica il file corrispondente
-			String filePath = String.format("src/main/resources/environments/%s.properties", env);
+	private ConfigReader() {
+		// utility class
+	}
 
-			FileInputStream fis = new FileInputStream(filePath);
-			properties.load(fis);
+	private static void loadEnvironmentProperties() {
+		String env = System.getProperty("env", "qa").toLowerCase();
+		String resourcePath = "environments/" + env + ".properties";
 
+		try (InputStream is = ConfigReader.class.getClassLoader().getResourceAsStream(resourcePath)) {
+
+			if (is == null) {
+				throw new RuntimeException("File di configurazione non trovato: " + resourcePath);
+			}
+
+			properties.load(is);
 			System.out.println(">> ENVIRONMENT LOADED: " + env.toUpperCase());
 
-		} catch (Exception e) {
-			throw new RuntimeException("Errore nel caricamento dell'ambiente", e);
+		} catch (IOException e) {
+			throw new RuntimeException("Errore nel caricamento dell'ambiente: " + env, e);
 		}
 	}
 
 	public static String getProperty(String key) {
-
-		// Se esiste una system property (-Dkey=value), usa quella
 		String sysValue = System.getProperty(key);
-		// Usa la system property SOLO se ha un valore valido
 		if (sysValue != null && !sysValue.isBlank()) {
 			return sysValue;
 		}
-		// Altrimenti leggi dal file .properties
-		return properties.getProperty(key);
+
+		String value = properties.getProperty(key);
+		if (value == null) {
+			throw new RuntimeException("Proprietà mancante: " + key);
+		}
+
+		return value;
 	}
 }
