@@ -9,26 +9,28 @@ Object Model.
 ------------------------------------------------------------------------
 ## 🧪 Test Implementati
 - **RegisterTest.testRegistrazioneEliminazione()**
-Simula l’intero flusso utente di registrazione, login e cancellazione account, verificando tutte le UI critical
+Simula l’intero flusso utente di registrazione, login e cancellazione account
 - **LoginTest.testLoginValid()**  
-  Verifica che un utente registrato possa autenticarsi correttamente e procedere alla cancellazione del proprio account, controllando messaggi, redirect e stato dell’utente loggato.
+  Verifica che un utente registrato possa autenticarsi correttamente.
 - **LoginTest.loginInvalid()**  
   Esegue automaticamente 10 combinazioni di login non valido utilizzando un DataProvider, validando sia i messaggi di errore generati dal browser (HTML5 validation) sia quelli restituiti dal backend.
+- **LogOutTest** 
+  Verifica il corretto funzionamento del logout dell’utente.
 
-## ▶️ Comando per eseguire tutti i test
-Per lanciare l’intera suite di test tramite Maven:
-mvn clean test -Denv=qa -Dbrowser=chrome -Dheadless=false "-Dtestng.suite=src/test/resources/filetestXML/runAllTsets.xml"
+## ▶️ Esecuzione dei test da terminale
+Per eseguire una suite di test tramite Maven utilizzare il seguente comando:
+mvn clean test -Denv=qa "-Dtestng.suite=src/test/resources/filetestXML/smokeSuite.xml"
 Questo comando:
-- Pulizia del progetto (`clean`)
-- Esecuzione dei test TestNG (`test`)
-- Imposta l’ambiente (`env=qa`)
-- Seleziona il browser (`browser=chrome`)
-- Decide se eseguire in headless o meno (`headless=false`)
-- Specifica il file XML da eseguire (in questo esempio `runAllTsets.xml`)
+-clean   → pulisce la build precedente del progetto
+-test    → avvia l’esecuzione dei test tramite TestNG
+-Denv=qa → seleziona l’ambiente di esecuzione (es. qa, dev, prod)
+-Dtestng.suite → specifica il file XML della suite TestNG da eseguire.
+
+Il framework utilizza la classe ConfigReader per caricare dinamicamente il file di configurazione dell’ambiente selezionato.
 
 ## Stack Tecnico
 
--   Java 21
+-   Java 
 -   Selenium WebDriver
 -   TestNG
 -   ExtentReports (report HTML avanzato)
@@ -102,17 +104,6 @@ Questo comando:
                    └── suite.xml
 
 ------------------------------------------------------------------------
-
-## Configurazione degli Ambienti
-## L’ambiente viene selezionato al momento dell’esecuzione specificando il parametro JVM:
-## mvn clean test -Denv=qa 
-
-Esempio (`qa.properties`):
-
-    browser=chrome
-    baseUrl=https://automationexercise.com
-    timeout=10
-    report=extent
 
 ------------------------------------------------------------------------
 
