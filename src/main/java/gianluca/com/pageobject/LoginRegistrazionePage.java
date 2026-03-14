@@ -1,7 +1,9 @@
 package gianluca.com.pageobject;
 
 import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
+
 
 import gianluca.com.selenium.BasePage;
 
@@ -51,6 +53,7 @@ public class LoginRegistrazionePage extends BasePage {
 
 	public void clickButtonLogin() {
 		actions.click(button_Login);
+
 	}
 
 	public void clickSignuUpRegistrazione() {
@@ -59,12 +62,12 @@ public class LoginRegistrazionePage extends BasePage {
 
 	public String getLoginValidationMessage() {
 
-		//Messaggio applicativo (backend)
+		// Messaggio applicativo (backend)
 		if (actions.isDisplayed(messaggioErroreLogin)) {
 			return actions.getText(messaggioErroreLogin).trim();
 		}
 
-		//Validazione HTML5 browser
+		// Validazione HTML5 browser
 		String emailValidation = actions.getValidationMessage(input_EmailLogin);
 		if (!emailValidation.isBlank()) {
 			return emailValidation;
@@ -77,4 +80,5 @@ public class LoginRegistrazionePage extends BasePage {
 
 		return "";
 	}
+
 }

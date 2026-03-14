@@ -77,7 +77,7 @@ public class LoginTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "invalidLoginData")
-	public void loginInvalid(LoginInvalidData data) {
+	public void loginInvalid(LoginInvalidData data) throws InterruptedException {
 
 		// ===== HOME PAGE =====
 		HomePage home = new HomePage(getDriver());

@@ -27,5 +27,7 @@ public interface ISeleniumActions {
 
 	// nuovo metodo per leggere i messaggi HTML5 del browser
 	String getValidationMessage(By locator);
+	
+
 
 }

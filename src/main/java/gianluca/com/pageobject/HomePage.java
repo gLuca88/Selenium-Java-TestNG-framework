@@ -13,6 +13,8 @@ public class HomePage extends BasePage {
 
 	private final String urlHomePage = "https://automationexercise.com/";
 	private final String titoloPagina = "Automation Exercise";
+	private final String urlDopoLogOut = "https://automationexercise.com/login";
+	private final String titoloAfterLogOut = "Automation Exercise - Signup / Login";
 
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -44,8 +46,16 @@ public class HomePage extends BasePage {
 		return getCurrentUrl().equalsIgnoreCase(urlHomePage);
 	}
 
+	public boolean isUrlCorrectAfterLogOut() {
+		return getCurrentUrl().equalsIgnoreCase(urlDopoLogOut);
+	}
+
 	public boolean isTitleCorrect() {
 		return getTitoloPagina().equalsIgnoreCase(titoloPagina);
+	}
+
+	public boolean isTitleCorrectAfterLogOut() {
+		return getTitoloPagina().equalsIgnoreCase(titoloAfterLogOut);
 	}
 
 	public void gestisciCookie() {
@@ -66,6 +76,10 @@ public class HomePage extends BasePage {
 
 	public boolean isHomePageVisible() {
 		return isNavbarVisible() && isTitleCorrect() && isUrlCorrect();
+	}
+
+	public boolean isHomePageVisibleAfterLogOut() {
+		return isNavbarVisible() && isTitleCorrectAfterLogOut() && isUrlCorrectAfterLogOut();
 	}
 
 }

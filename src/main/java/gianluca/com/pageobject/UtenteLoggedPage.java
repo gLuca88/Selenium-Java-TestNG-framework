@@ -15,6 +15,7 @@ public class UtenteLoggedPage extends BasePage {
 	private By container_NomeUtenteLoggato = By.xpath("//i[contains(@class,'fa fa-user')]/following-sibling::b");
 	private By button_CancellaAccount = By.xpath("//a[contains(@href,'delete')]");
 	private By container_MessaggioAccountCancellato = By.cssSelector("h2[data-qa='account-deleted']");
+	private By button_LogOut = By.xpath("//a[contains(@href,'logout')]");
 
 	public boolean verificaMessaggioLoggedUtente(String nomeAtteso) {
 		return actions.isTextEqual(container_NomeUtenteLoggato, nomeAtteso);
@@ -33,6 +34,10 @@ public class UtenteLoggedPage extends BasePage {
 	public boolean verificaPresenzaContainerUtenteLoggato() {
 
 		return actions.isDisplayed(container_NomeUtenteLoggato);
+	}
+
+	public void clickButtonLogOut() {
+		actions.click(button_LogOut);
 	}
 
 }

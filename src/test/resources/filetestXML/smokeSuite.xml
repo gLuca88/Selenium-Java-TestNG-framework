@@ -8,10 +8,11 @@
         <listener class-name="gianluca.com.listeners.TestListener"/>
     </listeners>
 
-    <test name="UI Tests">
+    <test name="Smoke Tests">
         <classes>
             <class name="gianluca.com.tests.RegisterTest"/>
             <class name="gianluca.com.tests.LoginTest"/>
+            <class name="gianluca.com.tests.LogOutTest"/>
         </classes>
     </test>
 
